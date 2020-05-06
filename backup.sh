@@ -12,7 +12,7 @@ while(true); do
     #git add B5_Clasificacion.tgz
     git add .
     git commit -a -m "$NOW"
-    git push
+    git push https://angelgarcan:hoyjin3456@github.com/angelgarcan/public.git
     echo "Sleeping..."
     echo ""
     sleep 60
