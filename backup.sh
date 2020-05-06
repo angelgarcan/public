@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 while(true); do
     NOW=$(date)
