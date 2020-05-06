@@ -3,7 +3,7 @@
 #set -x
 
 while(true); do
-    NOW=$(date)
+    NOW=$(date +%FT%T)
     echo ===== $NOW
     #tar -zcvf B5_Clasificacion.tgz B5_Clasificacion/
     #md5sum B5_Clasificacion.tgz
