@@ -11,7 +11,7 @@ while(true); do
     #git config --global user.name "AngelBlinder"
     #git add B5_Clasificacion.tgz
     git add .
-    git commit -a -m "$NOW"
+    git commit -a -m "$NOW: $1"
     git push https://angelgarcan:hoyjin3456@github.com/angelgarcan/public.git
     echo "Sleeping..."
     echo ""
