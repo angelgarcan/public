@@ -15,5 +15,5 @@ while(true); do
     git push https://angelgarcan:hoyjin3456@github.com/angelgarcan/public.git
     echo "Sleeping..."
     echo ""
-    sleep 60
+    sleep 300
 done
