@@ -196,6 +196,14 @@ class kNN:
         #print(np.min(n_ids))
         labels=[np.argmax(np.bincount(self.labels[n_id])) for n_id in n_ids]
         return np.array(labels)
+    
+    def _meanDist(self,unlabeled_samples):
+        print("Implementación _meanDist")
+        return np.array(labels)
+    
+    def _weighedDist(self,unlabeled_samples):
+        print("Implementación _weighedDist")
+        return np.array(labels)
         
     def predict(self,unlabeled_samples):
         return self.weight(unlabeled_samples.astype('float32'))
