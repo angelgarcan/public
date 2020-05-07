@@ -8,4 +8,4 @@ B5_Clasificacion/.ipynb_checkpoints/*
 .local/*
 .profile
 *.tgz
-*__pycache__*
+__pycache__/
