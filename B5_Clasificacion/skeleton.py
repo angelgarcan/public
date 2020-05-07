@@ -137,7 +137,6 @@ class NearestCentroid:
               
         
     def Sum(self,**kwarg):
-        print("su implementación para la formula de suma")
         lb=list(set(self.labels))
         self.centroids_={}
         for j in lb:
@@ -147,19 +146,34 @@ class NearestCentroid:
         return self
 
     #Para Rocchio debería poder pasar los parametros beta y gamma (para eso lo **kwargs)
-    def Rocchio(self,**kwargs):
-         print("Su implentación para la formual de Rocchio")
-      
+    def Rocchio(self,beta=16,gamma=4,**kwargs):
+#         print("kwargs:",kwargs)
+#         print("beta gamma ->",beta,gamma)
+        lb=list(set(self.labels))
+        self.centroids_={}
+        for j in lb:
+            Gj=self.data[np.where(self.labels==j)]
+            Gnj=self.data[np.where(self.labels!=j)]
+            #print(lb,j,Gj.shape)
+            self.centroids_[j]=beta*(np.sum(Gj,axis=0)/len(Gj))+gamma*(np.sum(Gnj,axis=0)/len(Gnj))
+        return self
         
     def NormSum(self,**kwarg):
-        print("su implementación para la formula la suma normalizada") 
+        lb=list(set(self.labels))
+        self.centroids_={}
+        for j in lb:
+            Gj=self.data[np.where(self.labels==j)]
+            #print(lb,j,Gj.shape)
+            s=np.sum(Gj,axis=0)
+            self.centroids_[j]=s/np.linalg.norm(s)
+        return self
 
     # Metodo para entrenar el modelo, solo recibe un numpy.array con los dato de n x N.
     # Donde n es el número de elmentos y N la dimensión            
-    def fit(self,data,labels,**kwargs):
+    def fit(self,data,labels):
         self.data=data
-        self.labels=labels
-        self.algorithm()
+        self.labels=labels    
+        self.algorithm(**self.kwargs_)
         return self
 
     #estructura propuesta para los algoritmos
@@ -167,7 +181,8 @@ class NearestCentroid:
     def __init__(self,distance='euclidiana',centroid_type='Average', **kwargs):
         #Funcion de similitud/distancia, por defecto similitud coseno
         self.distance=eval(distance) 
-        self.algorithm=getattr(self, centroid_type) 
+        self.algorithm=getattr(self, centroid_type)
+        self.kwargs_=kwargs
     
     
 class kNN:
