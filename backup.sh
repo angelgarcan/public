@@ -21,7 +21,7 @@ while(true); do
     git commit -a -m "$NOW: $1"
     echo "*** PUSH:"
     git push https://angelgarcan:hoyjin3456@github.com/angelgarcan/public.git
-    echo "Sleeping..."
+    echo "*** SLEEPING..."
     echo ""
     sleep 60
 done
