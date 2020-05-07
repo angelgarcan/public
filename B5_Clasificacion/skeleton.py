@@ -128,13 +128,7 @@ class NearestCentroid:
             #print(lb,j,Gj.shape)
             self.centroids_[j]=np.sum(Gj,axis=0)/len(Gj)
         return self
-    
-    
-    # Predecir las etiquetas para un conjunto de datos
-    def predict(self,unlabeled_samples):
-        y=[self._find_nearest_centroid(sample) for sample in unlabeled_samples]
         return np.array(y)
-              
         
     def Sum(self,**kwarg):
         lb=list(set(self.labels))
@@ -167,6 +161,10 @@ class NearestCentroid:
             s=np.sum(Gj,axis=0)
             self.centroids_[j]=s/np.linalg.norm(s)
         return self
+    
+    # Predecir las etiquetas para un conjunto de datos
+    def predict(self,unlabeled_samples):
+        y=[self._find_nearest_centroid(sample) for sample in unlabeled_samples]
 
     # Metodo para entrenar el modelo, solo recibe un numpy.array con los dato de n x N.
     # Donde n es el número de elmentos y N la dimensión            
