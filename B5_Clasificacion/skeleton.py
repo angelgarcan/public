@@ -138,6 +138,12 @@ class NearestCentroid:
         
     def Sum(self,**kwarg):
         print("su implementación para la formula de suma")
+        lb=list(set(self.labels))
+        self.centroids_={}
+        for j in lb:
+            Gj=self.data[np.where(self.labels==j)]
+            #print(lb,j,Gj.shape)
+            self.centroids_[j]=np.sum(Gj,axis=0)
         return self
 
     #Para Rocchio debería poder pasar los parametros beta y gamma (para eso lo **kwargs)
