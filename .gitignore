@@ -1,1 +1,10 @@
 B5_Clasificacion/.ipynb_checkpoints/*
+.bash_logout
+.bashrc
+.cache/*
+.conda/*
+.config/*
+.ipython/*
+.local/*
+.profile
+*.tgz
