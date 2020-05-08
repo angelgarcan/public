@@ -211,20 +211,25 @@ class kNN:
 #         print(self.n_ids.shape)
 #         print(self.n_ids)
         labels=[]
-        for i in range(samples.shape[0]):
+        for n_id in nn_clf.n_ids:
+#             print("=== ",n_id)
             n_class=[]
-            for n_id in self.n_ids:
-                row=[]
-                for id_ in n_id:
-                    row.append(self.labels[id_])
-                n_class.append(row)
+            for id_ in n_id:
+                n_class.append(nn_clf.labels[id_])
             n_class=np.array(n_class)
+#             print("n_class:",n_class)
 
-            lb=list(set(self.labels))
+            cs=list(set(n_class))
+            if len(cs)==1:
+                labels.append(cs[0])
+                continue
+
             mean_dists=[]
-            for j in lb:
+            for j in cs:
+#                 print(j,nn_clf.n_dists[np.where(n_class==j)])
                 mean_dists.append(
-                    np.mean(self.n_dists[np.where(n_class==j)])) 
+                    np.mean(nn_clf.n_dists[np.where(n_class==j)]))
+#             print("mean_dists",mean_dists)
             labels.append(lb[np.argmin(mean_dists)])
             
         return np.array(labels)
