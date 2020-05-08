@@ -206,13 +206,27 @@ class kNN:
             vnorm=np.linalg.norm(samples,axis=1)
             samples=samples/vnorm.reshape(len(vnorm),1)
         self.n_dists,self.n_ids=self.index.search(samples,self.k)
-        print(self.n_dists.shape)
-        print(self.n_dists)
-        print(self.n_ids.shape)
-        print(self.n_ids)
-#         print(np.max(n_ids))
-#         print(np.min(n_ids))
-        labels=[np.argmax(np.bincount(self.labels[n_id])) for n_id in self.n_ids]
+#         print(self.n_dists.shape)
+#         print(self.n_dists)
+#         print(self.n_ids.shape)
+#         print(self.n_ids)
+        labels=[]
+        for i in range(samples.shape[0])
+            n_class=[]
+            for n_id in nn_clf.n_ids:
+                row=[]
+                for id_ in n_id:
+                    row.append(nn_clf.labels[id_])
+                n_class.append(row)
+            n_class=np.array(n_class)
+
+            lb=list(set(nn_clf.labels))
+            mean_dists=[]
+            for j in lb:
+                mean_dists.append(
+                    np.mean(nn_clf.n_dists[np.where(n_class==j)])) 
+            labels.append(lb[np.argmin(mean_dists)])
+            
         return np.array(labels)
     
     def _weighedDist(self,unlabeled_samples):
