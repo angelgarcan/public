@@ -248,10 +248,12 @@ class kNN:
 
             mean_dists=[]
             for j in cs:
-#                 print(j,self.n_dists[i][np.where(n_class==j)])
                 mean_dists.append(
-                    np.mean(self.n_dists[i][np.where(n_class==j)]))
-#             print("mean_dists",mean_dists)
+                    np.sum(
+                        np.reciprocal(self.n_dists[i][np.where(n_class==j)],
+                    dtype='float32')
+                    )
+                )
             labels.append(cs[np.argmin(mean_dists)])
         return np.array(labels)
         
