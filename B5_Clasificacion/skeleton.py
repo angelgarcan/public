@@ -206,6 +206,13 @@ class kNN:
             vnorm=np.linalg.norm(samples,axis=1)
             samples=samples/vnorm.reshape(len(vnorm),1)
         neighbors,n_ids=self.index.search(samples,self.k)
+        print(neighbors.shape)
+        print(neighbors[:3])
+        print(n_ids.shape)
+        print(n_ids[:3])
+        print(np.max(n_ids))
+        print(np.min(n_ids))
+        labels=[np.argmax(np.bincount(self.labels[n_id])) for n_id in n_ids]
         return np.array(labels)
     
     def _weighedDist(self,unlabeled_samples):
@@ -215,6 +222,8 @@ class kNN:
             vnorm=np.linalg.norm(samples,axis=1)
             samples=samples/vnorm.reshape(len(vnorm),1)
         neighbors,n_ids=self.index.search(samples,self.k)
+        
+        labels=[np.argmax(np.bincount(self.labels[n_id])) for n_id in n_ids]
         return np.array(labels)
         
     def predict(self,unlabeled_samples):
