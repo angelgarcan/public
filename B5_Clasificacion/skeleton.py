@@ -205,9 +205,9 @@ class kNN:
         if self.distance=='coseno':
             vnorm=np.linalg.norm(samples,axis=1)
             samples=samples/vnorm.reshape(len(vnorm),1)
-        neighbors,n_ids=self.index.search(samples,self.k)
-        print(neighbors.shape)
-        print(neighbors[:3])
+        n_dists,n_ids=self.index.search(samples,self.k)
+        print(n_dists.shape)
+        print(n_dists[:3])
         print(n_ids.shape)
         print(n_ids[:3])
         print(np.max(n_ids))
@@ -217,14 +217,14 @@ class kNN:
     
     def _weighedDist(self,unlabeled_samples):
         print("Implementación _weighedDist")
-        samples=unlabeled_samples
-        if self.distance=='coseno':
-            vnorm=np.linalg.norm(samples,axis=1)
-            samples=samples/vnorm.reshape(len(vnorm),1)
-        neighbors,n_ids=self.index.search(samples,self.k)
+#         samples=unlabeled_samples
+#         if self.distance=='coseno':
+#             vnorm=np.linalg.norm(samples,axis=1)
+#             samples=samples/vnorm.reshape(len(vnorm),1)
+#         n_dists,n_ids=self.index.search(samples,self.k)
         
-        labels=[np.argmax(np.bincount(self.labels[n_id])) for n_id in n_ids]
-        return np.array(labels)
+#         labels=[np.argmax(np.bincount(self.labels[n_id])) for n_id in n_ids]
+#         return np.array(labels)
         
     def predict(self,unlabeled_samples):
         return self.weight(unlabeled_samples.astype('float32'))
