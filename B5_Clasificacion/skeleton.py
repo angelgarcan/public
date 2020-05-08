@@ -207,9 +207,9 @@ class kNN:
             samples=samples/vnorm.reshape(len(vnorm),1)
         n_dists,n_ids=self.index.search(samples,self.k)
         print(n_dists.shape)
-        print(n_dists[:3])
+        print(n_dists)
         print(n_ids.shape)
-        print(n_ids[:3])
+        print(n_ids)
         print(np.max(n_ids))
         print(np.min(n_ids))
         labels=[np.argmax(np.bincount(self.labels[n_id])) for n_id in n_ids]
