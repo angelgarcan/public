@@ -211,12 +211,9 @@ class kNN:
 #         print(self.n_ids.shape)
 #         print(self.n_ids)
         labels=[]
-        for n_id in nn_clf.n_ids:
+        for i,n_id in enumerate(self.n_ids):
 #             print("=== ",n_id)
-            n_class=[]
-            for id_ in n_id:
-                n_class.append(nn_clf.labels[id_])
-            n_class=np.array(n_class)
+            n_class=self.labels[n_id]
 #             print("n_class:",n_class)
 
             cs=list(set(n_class))
@@ -226,11 +223,12 @@ class kNN:
 
             mean_dists=[]
             for j in cs:
-#                 print(j,nn_clf.n_dists[np.where(n_class==j)])
+#                 print(j,self.n_dists[i][np.where(n_class==j)])
                 mean_dists.append(
-                    np.mean(nn_clf.n_dists[np.where(n_class==j)]))
+                    np.mean(self.n_dists[i][np.where(n_class==j)]))
 #             print("mean_dists",mean_dists)
-            labels.append(lb[np.argmin(mean_dists)])
+            labels.append(cs[np.argmin(mean_dists)])
+        labels
             
         return np.array(labels)
     
