@@ -209,9 +209,7 @@ class kNN:
         
         labels=[]
         for i,n_id in enumerate(self.n_ids):
-#             print("=== ",n_id)
             n_class=self.labels[n_id]
-#             print("n_class:",n_class)
 
             cs=list(set(n_class))
             if len(cs)==1:
@@ -220,10 +218,9 @@ class kNN:
 
             mean_dists=[]
             for j in cs:
-#                 print(j,self.n_dists[i][np.where(n_class==j)])
                 mean_dists.append(
-                    np.mean(self.n_dists[i][np.where(n_class==j)]))
-#             print("mean_dists",mean_dists)
+                    np.mean(self.n_dists[i][np.where(n_class==j)])
+                )
             labels.append(cs[np.argmin(mean_dists)])
         return np.array(labels)
     
@@ -237,24 +234,22 @@ class kNN:
         
         labels=[]
         for i,n_id in enumerate(self.n_ids):
-#             print("=== ",n_id)
             n_class=self.labels[n_id]
-#             print("n_class:",n_class)
 
             cs=list(set(n_class))
             if len(cs)==1:
                 labels.append(cs[0])
                 continue
 
-            mean_dists=[]
+            ws=[]
             for j in cs:
-                mean_dists.append(
+                ws.append(
                     np.sum(
                         np.reciprocal(self.n_dists[i][np.where(n_class==j)],
                     dtype='float32')
                     )
                 )
-            labels.append(cs[np.argmin(mean_dists)])
+            labels.append(cs[np.argmax(ws)])
         return np.array(labels)
         
     def predict(self,unlabeled_samples):
