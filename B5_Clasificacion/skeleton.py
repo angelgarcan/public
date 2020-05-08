@@ -106,7 +106,7 @@ def plotDecisionBoundary(clf,data,labels,points=True):
     ax.set_xticks([])
     ax.set_yticks([])
     ax.legend(loc='lower right');
-    #plt.show()
+    plt.show()
                 
 class NearestCentroid:
         
@@ -199,8 +199,8 @@ class kNN:
         labels=[np.argmax(np.bincount(self.labels[n_id])) for n_id in n_ids]
         return np.array(labels)
     
-    def _meanDist(self,unlabeled_samples):
-        print("Implementación meanDist")
+    def _mean_dist(self,unlabeled_samples):
+        print("Implementación mean_dist")
         samples=unlabeled_samples
         if self.distance=='coseno':
             vnorm=np.linalg.norm(samples,axis=1)
@@ -224,8 +224,8 @@ class kNN:
             labels.append(cs[np.argmin(mean_dists)])
         return np.array(labels)
     
-    def _weighedDist(self,unlabeled_samples):
-        print("Implementación _weighedDist")
+    def _weighed_dist(self,unlabeled_samples):
+        print("Implementación weighed_dist")
         samples=unlabeled_samples
         if self.distance=='coseno':
             vnorm=np.linalg.norm(samples,axis=1)
