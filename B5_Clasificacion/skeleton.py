@@ -200,16 +200,13 @@ class kNN:
         return np.array(labels)
     
     def _meanDist(self,unlabeled_samples):
-        print("Implementación _meanDist")
+        print("Implementación meanDist")
         samples=unlabeled_samples
         if self.distance=='coseno':
             vnorm=np.linalg.norm(samples,axis=1)
             samples=samples/vnorm.reshape(len(vnorm),1)
         self.n_dists,self.n_ids=self.index.search(samples,self.k)
-#         print(self.n_dists.shape)
-#         print(self.n_dists)
-#         print(self.n_ids.shape)
-#         print(self.n_ids)
+        
         labels=[]
         for i,n_id in enumerate(self.n_ids):
 #             print("=== ",n_id)
@@ -228,20 +225,35 @@ class kNN:
                     np.mean(self.n_dists[i][np.where(n_class==j)]))
 #             print("mean_dists",mean_dists)
             labels.append(cs[np.argmin(mean_dists)])
-        labels
-            
         return np.array(labels)
     
     def _weighedDist(self,unlabeled_samples):
         print("Implementación _weighedDist")
-#         samples=unlabeled_samples
-#         if self.distance=='coseno':
-#             vnorm=np.linalg.norm(samples,axis=1)
-#             samples=samples/vnorm.reshape(len(vnorm),1)
-#         n_dists,n_ids=self.index.search(samples,self.k)
+        samples=unlabeled_samples
+        if self.distance=='coseno':
+            vnorm=np.linalg.norm(samples,axis=1)
+            samples=samples/vnorm.reshape(len(vnorm),1)
+        self.n_dists,self.n_ids=self.index.search(samples,self.k)
         
-#         labels=[np.argmax(np.bincount(self.labels[n_id])) for n_id in n_ids]
-#         return np.array(labels)
+        labels=[]
+        for i,n_id in enumerate(self.n_ids):
+#             print("=== ",n_id)
+            n_class=self.labels[n_id]
+#             print("n_class:",n_class)
+
+            cs=list(set(n_class))
+            if len(cs)==1:
+                labels.append(cs[0])
+                continue
+
+            mean_dists=[]
+            for j in cs:
+#                 print(j,self.n_dists[i][np.where(n_class==j)])
+                mean_dists.append(
+                    np.mean(self.n_dists[i][np.where(n_class==j)]))
+#             print("mean_dists",mean_dists)
+            labels.append(cs[np.argmin(mean_dists)])
+        return np.array(labels)
         
     def predict(self,unlabeled_samples):
         return self.weight(unlabeled_samples.astype('float32'))
