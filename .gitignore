@@ -10,3 +10,4 @@ B5_Clasificacion/.ipynb_checkpoints/*
 *.tgz
 __pycache__/
 nltk_data/
+.jupyter/
