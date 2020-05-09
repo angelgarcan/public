@@ -9,3 +9,4 @@ B5_Clasificacion/.ipynb_checkpoints/*
 .profile
 *.tgz
 __pycache__/
+nltk_data/
