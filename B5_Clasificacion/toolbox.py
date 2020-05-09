@@ -63,10 +63,11 @@ def cleanStr(line):
     text = re.sub(r'ü', 'u', text)
     text = re.sub(r'ñ', 'n', text)
     text = re.sub(r'http[^ ]+', '', text)  # URLs.
-#     text = re.sub(r'@[^ ]+', '', text)  # Citas.
-#     text = re.sub(r'#[^ ]+', '', text)  # Tags.
+    text = re.sub(r'@[^ ]+', '', text)  # Citas.
+    text = re.sub(r'#[^ ]+', '', text)  # Tags.
     text = re.sub(r'[^a-z ]', ' ', text).strip()  # Signos de puntuación.
-    text = re.sub(r'(.)\1\1+', r'\1\1', text)  # Caracteres repetidos 3 veces o más.
+#     text = re.sub(r'(.)\1\1+', r'\1\1', text)  # Caracteres repetidos 3 veces o más.
+    text = re.sub(r'(.)\1+', r'\1', text)  # Caracteres repetidos 2 veces o más.
     text = re.sub(r' [^ ] ', ' ', text)  # Caracteres huérfanos.
     return text
 
@@ -155,7 +156,7 @@ class InvertedIdx:
                                              tokenizer=lambda x: x,
                                              preprocessor=lambda x: x,
                                              token_pattern=None) 
-            self.idx_mtx=sp.lil_matrix(tfidf_vectorizer.fit_transform(self.tokenized_docs).T)
+            self.idx_mtx=sp.lil_matrix(tfidf_vectorizer.fit_transform(self.tokenized_docs).T,dtype='float16')
             self.corpus=tfidf_vectorizer.get_feature_names()
             print("** Computed TF-IDF Matrix !!!")
         else:            
