@@ -70,6 +70,8 @@ def cleanStr(line):
     text = re.sub(r' [^ ] ', ' ', text)  # Caracteres huérfanos.
     return text
 
+import nltk
+nltk.download('stopwords')
 stopwords = stopwords.words('spanish')
 def removeStopWords(txtLst):
     new_txtLst = txtLst[:]
