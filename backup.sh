@@ -20,7 +20,7 @@ while(true); do
     echo "*** COMMIT:"
     git commit -a -m "$NOW: $1"
     echo "*** PUSH:"
-    git push https://angelgarcan:hoyjin3456@github.com/angelgarcan/public.git
+    git push https://angelgarcan:${2}@github.com/angelgarcan/public.git
     echo "*** SLEEPING 300..."
     echo ""
     sleep 300
