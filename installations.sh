@@ -8,7 +8,7 @@ pip install faiss-cpu
 # CONDA
 conda update --yes -n base conda
 
-conda install --yes matplotlib pandas numpy scikit-learn nltk jupyternotify wordcloud
+conda install --yes matplotlib pandas numpy scikit-learn nltk jupyternotify wordcloud gensim
 conda install --yes -c ingeotec microtc
 
 conda update --yes --all
