@@ -11,3 +11,5 @@ B5_Clasificacion/.ipynb_checkpoints/*
 __pycache__/
 nltk_data/
 .jupyter/
+/B6_ProyectoIntegrador/data/geo-mx-2004.json
+/B6_ProyectoIntegrador/data/geo-mx-2004.zip
