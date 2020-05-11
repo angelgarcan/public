@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -x
 # PIP
 pip install mkl
 pip install faiss-cpu
@@ -11,3 +12,5 @@ conda install --yes matplotlib pandas numpy scikit-learn nltk jupyternotify
 conda install --yes -c ingeotec microtc
 
 conda update --all
+
+set +x
