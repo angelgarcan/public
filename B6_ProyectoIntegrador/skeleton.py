@@ -1,23 +1,33 @@
 import numpy as np
+#from scipy.spatial.distance import cosine
+from sklearn.cluster import KMeans as skmeans
 from matplotlib import transforms
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import cm
+import nltk, itertools, string, unicodedata, re
+from nltk.tokenize import word_tokenize
 from sklearn.decomposition import PCA
+import pandas as pd
 import faiss 
 from mpl_toolkits.mplot3d import axes3d
 
-#distancia euclidiana
+
+#Tabla de elementos de puntuación
+punctuation_table = str.maketrans({key: None for key in string.punctuation+"¿¡?!"})
+#Stop words sin acentos
+stop_words = [unicodedata.normalize('NFKD', stw).encode('ASCII', 'ignore').decode()
+              for stw in nltk.corpus.stopwords.words('spanish')]
+
+#distancia euclideana
 def euclidiana(x,y):
     m=x-y
     return np.sqrt(np.sum(m*m))
 
 #distancia coseno
 def coseno(x,y):
-    #print(x)
-    #print(y)
-    dist=1-np.dot(x, y) / (np.linalg.norm(x) * np.linalg.norm(y))
-    # si los vectores  están normalizados se podría utilizar la siguente linea
-    #dist= np.dot(x, y)
+    dist=1.0 - np.dot(x, y) / (np.linalg.norm(x) * np.linalg.norm(y))
+    # si los vectores no están normalizados se podría utilizar la siguente linea
+    #dist=1.0 - np.dot(x, y)
     return dist
 
 # función para graficar clusters en dos y tres dimensiones
@@ -74,6 +84,34 @@ def plotPCA(data, labels, d=2,f="",centroids={},vectors=False):
             else: 
                 plt.quiver(*origin3d, pca_centroids[k][0],pca_centroids[k][1],pca_centroids[k][2],color='skyblue')
 
+# Preprocesamiento simple
+def preprocess(sentence):
+     st=sentence.lower()
+     st=re.sub(r"http\S+", "", st)
+     st=st.translate(punctuation_table)   
+     st=unicodedata.normalize('NFKD', st).encode('ASCII', 'ignore').decode()
+     tokens=[word for word in word_tokenize(st) if word not in stop_words]
+     return tokens
+
+#Para tokenizar una lista de textos                            
+def tokenize_sentences(texts):
+    tokenized_texts=[preprocess(txt) for txt in texts]
+    return np.array(tokenized_texts)
+
+#Método bruto para calcular  atriz de cocurrencia de palabrar 
+def cocurrency_matrix(sentences):
+    voc=list(set(list(itertools.chain.from_iterable(sentences))))
+    voc.sort()
+    V=len(voc)
+    matrix=pd.DataFrame(index=voc,columns=voc,data=np.zeros((V,V)))
+    for word in voc:
+        for sentence in sentences:
+            if word in sentence:
+                for col in set(sentence):
+                    matrix[word][col]+=1
+                    #if col!=word:
+                    #    matrix[col][word]=matrix[col][word]+1
+    return np.array(voc),matrix
 
 def plotDecisionBoundary(clf,data,labels,points=True):
     n,m=data.shape
@@ -277,7 +315,52 @@ class kNN:
         self.k=k
     
     
-                                
+# Plantilla simple para implementar métodos de clustering
+class Clustering:
     
+    ## Calcular SSE se usa inertia igual que en la implementacion de sckit-learn 
+    def _inertia(self):
+        self.inertia_=0
+        for j in range(len(self.data)):
+            dists=[(self.distance_function(c,self.data[j]),i) for i,c in self.centroids_.items()]
+            self.inertia_+=dists[0][0]
+            
+    # asigna los elementos en la colección a su centroide más cercano
+    # genera las etiquetas de los clusters 
+    def _assign_nearest_centroids(self):
+         self.labels_=[-1 for x in self.data]
+         for j in range(len(self.data)):
+             dists=[(self.distance_function(c,self.data[j]),i,self.data[j])
+                    for i,c in self.centroids_.items()]
+             dists.sort()
+             self.labels_[j]=dists[0][1]
+       
+    # Ejemplo de random Clustering, es equivalente a la primera iteración de KMeans
+    def randomClustering(self):
+         # seleccionamos K elmentos de forma aleatoria
+         idx=np.random.randint(self.data.shape[0], size=self.n_clusters)
+         self.centroids_=dict(zip(idx,self.data[idx,:])) # creamos un diccionario {id_cluster: vector} 
+         self._assign_nearest_centroids() #asignamos las etiquetas
+         self._inertia() # calculamos el SSE
+         return self
 
-         
+    def KMeans(self):
+         print("Su implentación de KMeans")
+
+    def FFTraversal(self):
+        print("su implementación de Farthest First Traversal") 
+
+    # Metodo para entrenar el modelo, solo recibe un numpy.array con los dato de n x N.
+    # Donde n es el número de elmentos y N la dimensión            
+    def fit(self,data):
+        self.data=data
+        self.algorithm()
+        return self
+
+    #estructura propuesta para los algoritmos
+    # La variable algorithm es un string con el nombre de su función de clustering
+    def __init__(self,n_clusters=3,distance_function=euclidiana,algorithm='randomClustering'):
+        self.n_clusters=n_clusters  # número de clusters K
+        self.inertia_=0 # SSE
+        self.distance_function=distance_function #Funcion de distancia, por defecto euclidiana
+        self.algorithm=getattr(self, algorithm) 
