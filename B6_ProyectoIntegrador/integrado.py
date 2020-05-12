@@ -71,6 +71,7 @@ class Index():
         for idx in range(tokens.N):
             tb.show_progress(showProgressEach,tx,idx)
             tok=tokens.getToks(idx)
+            print(type(tok),tok)
             twCnt = Counter(tok) # Sumando frecuencias individiales.
             TF.append(twCnt)
             DF.update(list(twCnt.keys())) # Sumando frecuencias por documento (DF).
