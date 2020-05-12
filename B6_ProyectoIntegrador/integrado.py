@@ -13,7 +13,8 @@ class Tokens():
     tokenized_pointer=None
     
     def tokenize(self,json_file,npy_file=None,replace=False,showProgressEach=1000):
-        self.npy_file=str(os.path.splitext(json_file)[0]+".npy") if not npy_file else npy_file
+        self.json_file=json_file
+        self.npy_file=str(os.path.splitext(self.json_file)[0]+".npy") if not npy_file else npy_file
 
         if not replace and os.path.isfile(self.npy_file):
             print(f"** Replace is off. {os.path.abspath(self.npy_file)} already exists, then load.")
@@ -49,6 +50,13 @@ class Tokens():
         for n in docs:
             res.append(self.get(n))
         return res
+    
+    def getTw(self, n):
+        """Obtiene el tweet en la posición n."""
+        for idx, tw in enumerate(tweet_iterator(self.json_file)):
+            if idx == n: return tw;
+        print(f"ïndice excede el tamaño del array ({n}>{idx-1})")
+        
     
 class Index():
     N = 0
