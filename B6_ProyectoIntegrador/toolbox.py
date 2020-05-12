@@ -104,7 +104,7 @@ def process_line(line, remStopw=True, stemm=True, retSet=False):
         return twTxtLst
 
 class InvertedIdx:
-    tokenized_docs_filename='tokenized_docs.pickle'
+    tokenized_docs_filename='tokenized_docs.npy'
     tokenized_docs=None
     idx_mtx=None
     postlists=None
@@ -114,7 +114,7 @@ class InvertedIdx:
         self.filename = filename
     
     def process(self, showProgressEach=None, remStopw=True, stemm=True, replace=False):
-        """Procesa todos los tweets, los tokeniza y almacena en un archivo pickle."""
+        """Procesa todos los tweets, los tokeniza y almacena en un archivo npy."""
         if self.tokenized_docs:            
             print(f"** Processed. tokenized_docs is already loaded.")
             return
