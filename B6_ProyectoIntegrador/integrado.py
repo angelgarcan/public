@@ -41,22 +41,23 @@ class Tokens():
         self.pointer=np.load(self.npy_file, mmap_mode='r')
         return self
     
-    def get(self,n):
-        return [x for x in self.pointer[n,:] if x != '']
-    
-    def getDocs(self,docs):
-#         if isinstance(docs,int): docs=[docs]
+    def getToks(self,ns):
+        if isinstance(ns,int): ns=[ns]
         res=[]
-        for n in docs:
-            res.append(self.get(n))
+        for n in ns:
+            res.append([x for x in self.pointer[n,:] if x != ''])
         return res
     
-    def getTw(self, n):
+    def getTws(self, ns):
         """Obtiene el tweet en la posición n."""
-        for idx, tw in enumerate(tweet_iterator(self.json_file)):
-            if idx == n: return tw;
-        print(f"ïndice excede el tamaño del array ({n}>{idx-1})")
-        
+        if isinstance(ns,int): ns=[ns]
+        res=[]
+        for n in ns:
+            for idx, tw in enumerate(tweet_iterator(self.json_file)):
+                if idx == n: res.appen(tw);
+            print(f"ïndice excede el tamaño del array ({n}>{idx-1})")
+        return res
+
     
 class Index():
     N = 0
