@@ -92,9 +92,9 @@ class Index():
     def getScores(self,word):
         return self.postlists[word][1]
     
-    def a(self, q, isText=False):
+    def a(self, q, tokenize=False):
         """Búsqueda AND."""
-        if isText: q=tb.process_line(q)
+        if tokenize: q=tb.process_line(q)
         res = None
         for word in q:
             if not res:
@@ -103,9 +103,9 @@ class Index():
                 res = res.intersection(self.getIdxs(word))
         return list(sorted(res))
 
-    def o(self, q, isText=False):
+    def o(self, q, tokenize=False):
         """Búsqueda OR."""
-        if isText: q=tb.process_line(q)
+        if tokenize: q=tb.process_line(q)
         res = set()
         for word in q:
             res = res.union(self.getIdxs(word))
