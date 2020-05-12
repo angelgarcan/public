@@ -42,21 +42,27 @@ class Tokens():
         return self
     
     def getToks(self,ns):
-        if isinstance(ns,int): ns=[ns]
+        unique=False
+        if isinstance(ns,int):
+            unique=True
+            ns=[ns]
         res=[]
         for n in ns:
             res.append([x for x in self.pointer[n,:] if x != ''])
-        return res
+        return res[0] if unique else res
     
     def getTws(self, ns):
         """Obtiene el tweet en la posición n."""
-        if isinstance(ns,int): ns=[ns]
+        unique=False
+        if isinstance(ns,int):
+            unique=True
+            ns=[ns]
         res=[]
         for idx, tw in enumerate(tweet_iterator(self.json_file)):
-            if idx in ns: res.appen(tw);
+            if idx in ns: res.append(tw);
         if len(res) < len(ns):
             print(f"Índice no encontrado: {ns} > {idx-1}")
-        return res
+        return res[0] if unique else res
 
     
 class Index():
@@ -71,7 +77,6 @@ class Index():
         for idx in range(tokens.N):
             tb.show_progress(showProgressEach,tx,idx)
             tok=tokens.getToks(idx)
-            print(type(tok),tok)
             twCnt = Counter(tok) # Sumando frecuencias individiales.
             TF.append(twCnt)
             DF.update(list(twCnt.keys())) # Sumando frecuencias por documento (DF).
