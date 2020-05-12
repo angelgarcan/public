@@ -54,8 +54,8 @@ class Tokens():
         res=[]
         for n in ns:
             for idx, tw in enumerate(tweet_iterator(self.json_file)):
-                if idx == n: res.appen(tw);
-            print(f"ïndice excede el tamaño del array ({n}>{idx-1})")
+                if idx in ns: res.appen(tw);
+#             print(f"ïndice excede el tamaño del array ({n}>{idx-1})")
         return res
 
     
