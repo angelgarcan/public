@@ -25,7 +25,7 @@ class Tokens():
             tx = datetime.datetime.now()
             for idx, tw in enumerate(tweet_iterator(json_file)):
                 tb.show_progress(showProgressEach, tx, idx)
-                twTokens = tb.process_line(tw['text']) # Tokenizando tweet.
+                twTokens = tb.process_line(tw['text'],stemm=False) # Tokenizando tweet.
                 tokenized_docs.append(twTokens)
             self.N=idx+1
         
@@ -109,7 +109,7 @@ class Index():
     
     def a(self, q, tokenize=False):
         """Búsqueda AND."""
-        if tokenize: q=tb.process_line(q)
+        if tokenize: q=tb.process_line(q,stemm=False)
         res = None
         for word in q:
             if not res:
@@ -120,7 +120,7 @@ class Index():
 
     def o(self, q, tokenize=False):
         """Búsqueda OR."""
-        if tokenize: q=tb.process_line(q)
+        if tokenize: q=tb.process_line(q,stemm=False)
         res = set()
         for word in q:
             res = res.union(self.getIdxs(word))
