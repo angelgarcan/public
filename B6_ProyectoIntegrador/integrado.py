@@ -63,7 +63,20 @@ class Tokens():
         if len(res) < len(ns):
             print(f"Índice no encontrado: {ns} > {idx-1}")
         return res[0] if unique else res
+    
+    def __iter__(self):
+        ''' Returns the Iterator object '''
+        return TokensIterator(self)
 
+    
+class TokensIterator:
+    def __init__(self, tokens):
+        self._tokens=tokens
+        self._index=0
+    
+    def __next__(self):
+        
+        raise StopIteration
     
 class Index():
     N = 0
