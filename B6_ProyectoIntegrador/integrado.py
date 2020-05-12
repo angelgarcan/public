@@ -52,10 +52,10 @@ class Tokens():
         """Obtiene el tweet en la posición n."""
         if isinstance(ns,int): ns=[ns]
         res=[]
-        for n in ns:
-            for idx, tw in enumerate(tweet_iterator(self.json_file)):
-                if idx in ns: res.appen(tw);
-#             print(f"ïndice excede el tamaño del array ({n}>{idx-1})")
+        for idx, tw in enumerate(tweet_iterator(self.json_file)):
+            if idx in ns: res.appen(tw);
+        if len(res) < len(ns):
+            print(f"Índice no encontrado: {ns} > {idx-1}")
         return res
 
     
@@ -70,7 +70,7 @@ class Index():
         print("** Counting TF & DF ...")
         for idx in range(tokens.N):
             tb.show_progress(showProgressEach,tx,idx)
-            tok=tokens.get(idx)
+            tok=tokens.getToks(idx)
             twCnt = Counter(tok) # Sumando frecuencias individiales.
             TF.append(twCnt)
             DF.update(list(twCnt.keys())) # Sumando frecuencias por documento (DF).
