@@ -12,7 +12,7 @@ from collections import defaultdict
 class Tokens():
     tokenized_pointer=None
     
-    def tokenize(self,json_file,npy_file=None,replace=False,showProgressEach=1000):
+    def __init__(self,json_file,npy_file=None,replace=False,showProgressEach=1000):
         self.json_file=json_file
         self.npy_file=str(os.path.splitext(self.json_file)[0]+".npy") if not npy_file else npy_file
 
@@ -39,7 +39,6 @@ class Tokens():
             print(f"** Processed {self.N} lines. Saved to {os.path.abspath(self.npy_file)}.")
         
         self.pointer=np.load(self.npy_file, mmap_mode='r')
-        return self
     
     def getToks(self,ns):
         unique=False
@@ -75,13 +74,15 @@ class TokensIterator:
         self._index=0
     
     def __next__(self):
-        
-        raise StopIteration
+        if self._index >= self._tokens.N:
+            raise StopIteration
+        else:
+            return self._tokens.getToks(self._index)
     
 class Index():
     N = 0
     
-    def computePostingLists(self, tokens, showProgressEach=1000):
+    def __init__(self, tokens, showProgressEach=1000):
         tx = datetime.datetime.now()
         DF = Counter({})
         TF = []
@@ -111,8 +112,6 @@ class Index():
             p.sort()
             p=list(zip(*p))
             self.postlists[w]=[list(p[1]),list(p[0])]
-        
-        return self
     
     def getIdxs(self,word):
         return self.postlists[word][0]
