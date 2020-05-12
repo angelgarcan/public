@@ -16,6 +16,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 import scipy.sparse as sp
 
+import tqdm
+
 # import matplotlib as plt
 # import pandas as pd
 
