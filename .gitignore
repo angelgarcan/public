@@ -13,3 +13,5 @@ nltk_data/
 /B6_ProyectoIntegrador/data/geo-mx-2004.json
 /B6_ProyectoIntegrador/data/geo-mx-2004.zip
 .ipynb_checkpoints/
+*.gz
+data/
